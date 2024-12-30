@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -I.
+CFLAGS = -g -Wall -Wextra -I.
 LIB = libcsv.a
 
 all: test
