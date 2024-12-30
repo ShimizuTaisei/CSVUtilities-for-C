@@ -19,5 +19,7 @@ typedef struct csv_data
 csv_data_t *addList(csv_data_t **head, csv_data_t *new);
 void removeList(csv_data_t **head);
 csv_data_t *readCSV(char *fileName);
+csv_data_t *searchByIndex(csv_data_t *head, unsigned int index);
+csv_data_t *searchByName(csv_data_t *head, const char *name);
 
 #endif
