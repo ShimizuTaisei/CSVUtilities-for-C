@@ -4,11 +4,14 @@ LIB = libcsv.a
 
 all: test
 
-csv.o: csv.c
-	$(CC) $(CFLAGS) -c csv.c
+csv_reader.o: csv_reader.c
+	$(CC) $(CFLAGS) -c csv_reader.c
 
-$(LIB): csv.o
-	ar rcs $(LIB) csv.o
+csv_list.o: csv_list.c
+	$(CC) $(CFLAGS) -c csv_list.c
+
+$(LIB): csv_reader.o csv_list.o
+	ar rcs $(LIB) csv_reader.o csv_list.o
 
 test: test.c $(LIB)
 	$(CC) $(CFLAGS) -o test test.c -L. -lcsv

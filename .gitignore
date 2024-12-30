@@ -1,5 +1,5 @@
 /.idea/
-csv.o
+*.o
 libcsv.a
 test
 *.csv
