@@ -3,6 +3,14 @@
 #include <string.h>
 #include "csv.h"
 
+/**
+ * @fn
+ * @brief
+ * Add the list.
+ * @param head The double pointer to the head of the list.
+ * @param new The new data.
+ * @return The head of the list.
+ */
 csv_data_t *addList(csv_data_t **head, csv_data_t *new)
 {
     if (*head == NULL)
@@ -59,6 +67,12 @@ csv_data_t *searchByName(csv_data_t *head, const char *name)
     return NULL;
 }
 
+/**
+ * @fn
+ * @brief
+ * Remove the list.
+ * @param head The double pointer to the head of the list.
+ */
 void removeList(csv_data_t **head)
 {
     csv_data_t *p = *head;

@@ -38,6 +38,13 @@ void readValues(csv_data_t **dataList, csv_data_t *headerList, char str[])
     }
 }
 
+/**
+ * @fn
+ * @brief
+ * Read the CSV file.
+ * @param fileName The name of the file.
+ * @return The list of the data.
+ */
 csv_data_t *readCSV(char *fileName)
 {
     FILE *fp = fopen(fileName, "r");
