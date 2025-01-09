@@ -5,3 +5,5 @@ test
 *.csv
 /test.dSYM/Contents/Info.plist
 /test.dSYM/Contents/Resources/Relocations/aarch64/test.yml
+/score
+/Sample/score.dSYM/
