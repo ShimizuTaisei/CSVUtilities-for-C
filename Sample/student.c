@@ -26,7 +26,7 @@ student_t *appendStudent(student_t *new, student_t *head) {
  * @fn
  * @brief
  * 生徒リストの要素数を返す
- * @param head　生徒リストの先頭のポインタ
+ * @param head 生徒リストの先頭のポインタ
  * @return 生徒リストの要素数
  */
 unsigned int countStudent(student_t *head) {

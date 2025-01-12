@@ -14,12 +14,26 @@ typedef struct csv_data
 
     char name[CSV_MAX_NAME_LEN];
     char value[CSV_MAX_VALUE_LEN];
-} csv_data_t ;
+} csv_data_t;
 
-csv_data_t *addList(csv_data_t **head, csv_data_t *new);
-void removeList(csv_data_t **head);
-csv_data_t *readCSV(char *fileName);
+typedef struct csv_row
+{
+    struct csv_row *next;
+    struct csv_row *prev;
+
+    unsigned int index;
+
+    csv_data_t *rowItems;
+} csv_row_t;
+
+csv_row_t *readCSV(char *fileName);
+csv_data_t *addDataList(csv_data_t **head, csv_data_t *new);
+void removeDataList(csv_data_t **head);
 csv_data_t *searchByIndex(csv_data_t *head, unsigned int index);
 csv_data_t *searchByName(csv_data_t *head, const char *name);
+
+csv_row_t *addDataToRow(csv_row_t *row, csv_data_t *data);
+csv_row_t *addRowList(csv_row_t **head, csv_row_t *new);
+void removeRowList(csv_row_t **head);
 
 #endif

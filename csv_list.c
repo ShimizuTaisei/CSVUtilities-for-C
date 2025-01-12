@@ -11,7 +11,7 @@
  * @param new The new data.
  * @return The head of the list.
  */
-csv_data_t *addList(csv_data_t **head, csv_data_t *new)
+csv_data_t *addDataList(csv_data_t **head, csv_data_t *new)
 {
     if (*head == NULL)
     {
@@ -73,12 +73,45 @@ csv_data_t *searchByName(csv_data_t *head, const char *name)
  * Remove the list.
  * @param head The double pointer to the head of the list.
  */
-void removeList(csv_data_t **head)
+void removeDataList(csv_data_t **head)
 {
     csv_data_t *p = *head;
     while (p != NULL)
     {
         csv_data_t* target = p;
+        p = p->next;
+        free(target);
+    }
+}
+
+csv_row_t *addDataToRow(csv_row_t *row, csv_data_t *data)
+{
+    addDataList(&row->rowItems, data);
+    return row;
+}
+
+csv_row_t *addRowList(csv_row_t **head, csv_row_t *new)
+{
+    if (*head == NULL)
+    {
+        *head = (csv_row_t*) malloc(sizeof(csv_row_t));
+        **head = *new;
+    } else
+    {
+        csv_row_t *p;
+        for (p = *head; p->next != NULL; p = p->next) {}
+        p->next = new;
+        new->prev = p;
+    }
+    return *head;
+}
+
+void removeRowList(csv_row_t **head)
+{
+    csv_row_t *p = *head;
+    while (p != NULL)
+    {
+        csv_row_t* target = p;
         p = p->next;
         free(target);
     }
