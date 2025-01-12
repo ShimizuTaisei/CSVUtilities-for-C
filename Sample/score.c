@@ -101,32 +101,32 @@ void printScores(student_t *students) {
     eachStudentAverage(students);
 
     // 表のヘッダを表示
-    printf("ID \t");
+    printf("%5s ", "ID");
     subject_t *sbPtr = students->subjects;
     for (sbPtr = students->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
-        printf("%.5s\t", sbPtr->name);
+        printf("%5s ", sbPtr->name);
     }
     printf("Total\n");
 
     // 生徒ごとの得点情報を表示
     student_t *stPtr;
     for (stPtr = students; stPtr != NULL; stPtr = stPtr->next) {
-        printf("%5d \t", stPtr->num);
+        printf("%5d ", stPtr->num);
         for (sbPtr = stPtr->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
-            printf("%5d \t", sbPtr->score);
+            printf("%5d ", sbPtr->score);
         }
-        printf("%5d", stPtr->sumScore);
+        printf("%5d ", stPtr->sumScore);
         printf("\n");
     }
     printf("----------------------------------------\n");
 
     // 教科ごとの平均点を表示
-    printf("Ave \t");
+    printf("%5s ", "Ave");
     subject_analysis_t *a;
     for (a = analysis; a != NULL; a = a->next) {
-        printf("%.1f\t", a->averageScore);
+        printf("%5.1f ", a->averageScore);
     }
-    printf("%.1f\n", totalAverage(students));
+    printf("%5.1f\n", totalAverage(students));
     printf("\n");
 }
 
