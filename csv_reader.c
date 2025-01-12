@@ -3,6 +3,21 @@
 #include <string.h>
 #include "csv.h"
 
+
+/**
+ * @fn
+ * @brief
+ * 文字列の末尾の改行文字を削除する
+ * @param str 対象の文字列
+ */
+void removeTrailingNewLine(char *str) {
+    const size_t len = strlen(str);
+    if (str[len - 1] == '\n') {
+        str[len - 1] = '\0';
+    }
+}
+
+
 void readHeader(csv_data_t** dataList, char str[])
 {
     const char* token = strtok(str, ",");
@@ -53,6 +68,7 @@ csv_row_t* readCSV(char* fileName)
     char str[CSV_MAX_LINE_LEN];
     while (fgets(str, CSV_MAX_LINE_LEN, fp))
     {
+        removeTrailingNewLine(str);
         if (line <= 1)
         {
             readHeader(&headerList, str);
