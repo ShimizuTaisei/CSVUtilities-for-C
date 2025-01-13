@@ -13,6 +13,7 @@ void writeHeader(const csv_row_t *row, FILE *fp)
             fputs(",", fp);
         }
     }
+    fputs("\n", fp);
 }
 
 void writeValues(const csv_row_t *head, FILE *fp)

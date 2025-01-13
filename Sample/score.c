@@ -32,7 +32,7 @@ student_t *road()
 
 void write(const student_t *list)
 {
-    csv_row_t *csvRow = (csv_row_t*)malloc(sizeof(csv_row_t));
+    csv_row_t *csvRow = NULL;
     for (const student_t *p = list; p != NULL; p = p->next)
     {
         csv_row_t *newRow = (csv_row_t*)malloc(sizeof(csv_row_t));
