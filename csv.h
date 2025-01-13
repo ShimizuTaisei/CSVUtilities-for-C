@@ -32,6 +32,8 @@ void removeDataList(csv_data_t **head);
 csv_data_t *searchByIndex(csv_data_t *head, unsigned int index);
 csv_data_t *searchByName(csv_data_t *head, const char *name);
 
+void writeCSV(const csv_row_t *head, const char *fileName);
+
 csv_row_t *addDataToRow(csv_row_t *row, csv_data_t *data);
 csv_row_t *addRowList(csv_row_t **head, csv_row_t *new);
 void removeRowList(csv_row_t **head);
