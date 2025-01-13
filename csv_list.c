@@ -112,6 +112,7 @@ void removeRowList(csv_row_t **head)
     while (p != NULL)
     {
         csv_row_t* target = p;
+        removeDataList(&p->rowItems);
         p = p->next;
         free(target);
     }
