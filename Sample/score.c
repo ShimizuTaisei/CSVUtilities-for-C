@@ -30,6 +30,30 @@ student_t *road()
     return students;
 }
 
+void write(const student_t *list)
+{
+    csv_row_t *csvRow = (csv_row_t*)malloc(sizeof(csv_row_t));
+    for (const student_t *p = list; p != NULL; p = p->next)
+    {
+        csv_row_t *newRow = (csv_row_t*)malloc(sizeof(csv_row_t));
+        csv_data_t *newNum = (csv_data_t*)malloc(sizeof(csv_data_t));
+        strcpy(newNum->name, "Num");
+        sprintf(newNum->value, "%d", p->num);
+        addDataToRow(newRow, newNum);
+
+        for (subject_t *q = p->subjects; q != NULL; q = q->next)
+        {
+            csv_data_t *newScore = (csv_data_t*)malloc(sizeof(csv_data_t));
+            strcpy(newScore->name, q->name);
+            sprintf(newScore->value, "%d", q->score);
+            addDataToRow(newRow, newScore);
+        }
+        addRowList(&csvRow, newRow);
+    }
+
+    writeCSV(csvRow, "result.csv");
+}
+
 /**
  * @fn
  * @brief
@@ -133,5 +157,6 @@ void printScores(student_t *students) {
 int main (void) {
     student_t *students = road();
     printScores(students);
+    write(students);
     return 0;
 }
