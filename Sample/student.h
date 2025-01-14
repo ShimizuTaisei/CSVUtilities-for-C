@@ -38,6 +38,7 @@ typedef struct subject_analysis {
     float averageScore;
 } subject_analysis_t;
 
+// Below are implemented in student.c
 extern student_t *appendStudent(student_t *new, student_t *head);
 extern unsigned int countStudent(student_t *head);
 extern student_t *removeStudent(unsigned int num, student_t *head);
@@ -50,5 +51,11 @@ extern unsigned int subjectCount(subject_t *head);
 extern subject_analysis_t *appendSubjectAnalysis(subject_analysis_t *new, subject_analysis_t *head);
 extern subject_analysis_t *addSubjectScore(char name[], unsigned int score, subject_analysis_t *head);
 extern void removeAllSubjectAnalysis(subject_analysis_t **head);
+// Above are implemented in student.c
+
+// Below are implemented in read_write.c
+extern student_t *readFile(char *fileName);
+extern void writeFile(const student_t *list, const char *fileName);
+// Above are implemented in read_write.c
 
 #endif
