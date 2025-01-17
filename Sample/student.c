@@ -110,6 +110,24 @@ subject_t *appendSubject(subject_t *new, subject_t *head) {
 /**
  * @fn
  * @brief
+ * 教科リストから指定された名前の教科を探す
+ * @param name 探す教科名
+ * @param head 教科リストの先頭のポインタ
+ * @return 見つかった教科のポインタ 見つからなければNULLを返す
+ */
+subject_t *searchSubject(const char *name, subject_t *head) {
+    for (subject_t *p = head; p != NULL; p = p->next) {
+        if (strcmp(p->name, name) == 0) {
+            return p;
+        }
+    }
+
+    return NULL;
+}
+
+/**
+ * @fn
+ * @brief
  * 教科リストの全ての要素を削除し，メモリを解放する.
  * 実行後，教科リスト先頭のポインタはNULLになる．
  * @param head 削除する教科リストの先頭のポインタ
@@ -189,6 +207,27 @@ subject_analysis_t *addSubjectScore(char name[], unsigned int score, subject_ana
     }
 
     return head;
+}
+
+/**
+ * @fn
+ * @brief
+ * リスト内から指定された名前の教科分析を探す
+ * @param name 探す教科名
+ * @param head リスト先頭のポインタ
+ * @return 見つかった教科分析のポインタ 見つからなければNULLを返す
+ */
+subject_analysis_t *searchSubjectAnalysis(const char *name, subject_analysis_t *head)
+{
+    for (subject_analysis_t *p = head; p != NULL; p = p->next)
+    {
+        if (strcmp(p->name, name) == 0)
+        {
+            return p;
+        }
+    }
+
+    return NULL;
 }
 
 /**

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "student.h"
 #include "../csv.h"
@@ -65,6 +66,40 @@ double totalAverage(student_t *head) {
     return totalScore / (double)(studentCount);
 }
 
+subject_analysis_t *calcStandardDeviation(student_t *students, subject_analysis_t *analyses) {
+    subject_t *subject = NULL;
+    double powerDeviationSum = 0;
+    for (subject_analysis_t *analysis = analyses; analysis != NULL; analysis = analysis->next)
+    {
+        for (student_t *student = students; student != NULL; student = student->next)
+        {
+            subject = searchSubject(analysis->name, student->subjects);
+            if (subject != NULL)
+            {
+                powerDeviationSum += pow(subject->score - analysis->averageScore, 2);
+            }
+        }
+        analysis->standardDeviation = sqrt(powerDeviationSum / countStudent(students));
+    }
+    return analyses;
+}
+
+void calcTScore(student_t *students, subject_analysis_t *analyses)
+{
+    calcStandardDeviation(students, analyses);
+    for (student_t *student = students; student != NULL; student = student->next)
+    {
+        for (subject_t *subject = student->subjects; subject != NULL; subject = subject->next)
+        {
+            subject_analysis_t *analysis = searchSubjectAnalysis(subject->name, analyses);
+            if (analysis != NULL)
+            {
+                subject->tScore = (subject->score - analysis->averageScore) / analysis->standardDeviation * 10 + 50;
+            }
+        }
+    }
+}
+
 /**
  * @fn
  * @brief
@@ -105,9 +140,50 @@ void printScores(student_t *students) {
     printf("\n");
 }
 
+void printTScore(student_t *students)
+{
+    subject_analysis_t *analysis = eachSubjectAverage(students);
+    calcTScore(students, analysis);
+
+    // 表のヘッダを表示
+    printf("%5s ", "ID");
+    subject_t *sbPtr = students->subjects;
+    for (sbPtr = students->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
+        printf("%5s ", sbPtr->name);
+    }
+    printf("Total\n");
+
+    // 生徒ごとの得点情報を表示
+    student_t *stPtr;
+    for (stPtr = students; stPtr != NULL; stPtr = stPtr->next) {
+        printf("%5d ", stPtr->num);
+        for (sbPtr = stPtr->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
+            printf("%5.1f ", sbPtr->tScore);
+        }
+        printf("\n");
+    }
+    printf("----------------------------------------\n");
+
+    // 教科ごとの平均点を表示
+    printf("%5s ", "Ave");
+    for (subject_analysis_t* a = analysis; a != NULL; a = a->next) {
+        printf("%5.1f ", a->averageScore);
+    }
+    printf("\n");
+
+    // 教科ごとの平均点を表示
+    printf("%5s ", "SD");
+    for (subject_analysis_t* a = analysis; a != NULL; a = a->next) {
+        printf("%5.1f ", a->standardDeviation);
+    }
+
+    printf("\n");
+}
+
 int main (void) {
     student_t *students = readFile("score.csv");
     printScores(students);
+    printTScore(students);
     writeFile(students, "result.csv");
     return 0;
 }
