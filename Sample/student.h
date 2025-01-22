@@ -25,6 +25,7 @@ typedef struct student {
     subject_t *subjects;
     int sumScore;
     double averageScore;
+    double totalTScore;
 } student_t;
 
 /**

@@ -1,10 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <math.h>
 
 #include "student.h"
-#include "../csv.h"
 
 /**
  * @fn
@@ -17,16 +14,14 @@ subject_analysis_t *eachSubjectAverage(student_t *head) {
     subject_analysis_t *analysis = NULL;
 
     for (student_t* p = head; p != NULL; p = p->next) {
-        subject_t *q;
-        for (q = p->subjects; q != NULL; q = q->next) {
+        for (subject_t* q = p->subjects; q != NULL; q = q->next) {
             analysis = addSubjectScore(q->name, q->score, analysis);
         }
     }
 
-    subject_analysis_t *s;
-    for (s = analysis; s != NULL; s = s->next) {
+    for (subject_analysis_t* s = analysis; s != NULL; s = s->next) {
         unsigned int studentCount = countStudent(head);
-        s->averageScore = s->sumScore / (float)studentCount;
+        s->averageScore = (double)s->sumScore / (double)studentCount;
     }
     return analysis;
 }
@@ -34,15 +29,13 @@ subject_analysis_t *eachSubjectAverage(student_t *head) {
 /**
  * @fn
  * @brief
- * 生徒ごとの平均点を計算して表示する
+ * 生徒ごとの平均点を計算して構造体に追加する
  * @param head 生徒リストの先頭ポインタ
  */
 void eachStudentAverage(student_t *head) {
-    student_t *p;
-    for (p = head; p != NULL; p = p->next) {
+    for (student_t* p = head; p != NULL; p = p->next) {
         p->sumScore = 0;
-        subject_t *q;
-        for (q = p->subjects; q != NULL; q = q->next) {
+        for (subject_t* q = p->subjects; q != NULL; q = q->next) {
             p->sumScore += q->score;
         }
         p->averageScore = (float)p->sumScore / (float)subjectCount(p->subjects);
@@ -59,8 +52,7 @@ void eachStudentAverage(student_t *head) {
 double totalAverage(student_t *head) {
     unsigned int studentCount = countStudent(head);
     unsigned int totalScore = 0;
-    student_t *p;
-    for (p = head; p != NULL; p = p->next) {
+    for (student_t* p = head; p != NULL; p = p->next) {
         totalScore += p->sumScore;
     }
     return totalScore / (double)(studentCount);
@@ -108,19 +100,17 @@ void calcTScore(student_t *students, subject_analysis_t *analyses)
  */
 void printScores(student_t *students) {
     subject_analysis_t *analysis = eachSubjectAverage(students);
-    eachStudentAverage(students);
 
     // 表のヘッダを表示
     printf("%5s ", "ID");
-    subject_t *sbPtr = students->subjects;
+    subject_t *sbPtr;
     for (sbPtr = students->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
         printf("%5s ", sbPtr->name);
     }
     printf("Total\n");
 
     // 生徒ごとの得点情報を表示
-    student_t *stPtr;
-    for (stPtr = students; stPtr != NULL; stPtr = stPtr->next) {
+    for (student_t* stPtr = students; stPtr != NULL; stPtr = stPtr->next) {
         printf("%5d ", stPtr->num);
         for (sbPtr = stPtr->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
             printf("%5d ", sbPtr->score);
@@ -132,8 +122,7 @@ void printScores(student_t *students) {
 
     // 教科ごとの平均点を表示
     printf("%5s ", "Ave");
-    subject_analysis_t *a;
-    for (a = analysis; a != NULL; a = a->next) {
+    for (subject_analysis_t* a = analysis; a != NULL; a = a->next) {
         printf("%5.1f ", a->averageScore);
     }
     printf("%5.1f\n", totalAverage(students));
@@ -147,15 +136,14 @@ void printTScore(student_t *students)
 
     // 表のヘッダを表示
     printf("%5s ", "ID");
-    subject_t *sbPtr = students->subjects;
+    subject_t *sbPtr;
     for (sbPtr = students->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
         printf("%5s ", sbPtr->name);
     }
     printf("Total\n");
 
-    // 生徒ごとの得点情報を表示
-    student_t *stPtr;
-    for (stPtr = students; stPtr != NULL; stPtr = stPtr->next) {
+    // 生徒ごとの偏差値を表示
+    for (student_t* stPtr = students; stPtr != NULL; stPtr = stPtr->next) {
         printf("%5d ", stPtr->num);
         for (sbPtr = stPtr->subjects; sbPtr != NULL; sbPtr = sbPtr->next) {
             printf("%5.1f ", sbPtr->tScore);
@@ -182,6 +170,7 @@ void printTScore(student_t *students)
 
 int main (void) {
     student_t *students = readFile("score.csv");
+    eachStudentAverage(students);
     printScores(students);
     printTScore(students);
     writeFile(students, "result.csv");
